@@ -14,28 +14,31 @@ resource "aws_instance" "nombre-resource" {
     type     = "ssh"
     user     = "ec2-user"
     host     = self.public_ip
-    private_key = file("/home/cloud/PracticoIntegrador/llave.pem")
+    private_key = file("/home/cloud/Integrador/llave.pem")
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "sudo yum update -y",
-      "sudo yum install -y httpd",
-      "sudo systemctl enable httpd",
-      "sudo systemctl start httpd",
+ provisioner "remote-exec" {
+  inline = [
+    # Actualizar paquetes
+    "sudo dnf update -y",
 
-      # Activar repositorio PHP 5.6
-      "sudo amazon-linux-extras enable php5.6",
-      "sudo yum clean metadata",
-      "sudo yum install -y php php-mysql",
+    # Instalar Apache (httpd)
+    "sudo dnf install -y httpd",
 
-      # Instalar cliente MySQL
-      "sudo yum install -y mysql",
+    # Habilitar y arrancar Apache
+    "sudo systemctl enable httpd",
+    "sudo systemctl start httpd",
 
-      # Reiniciar Apache para cargar PHP
-      "sudo systemctl restart httpd"
-    ]
-  }
+    # Instalar PHP y extensión para MySQL
+    "sudo dnf install -y php php-mysqlnd",
+
+    # Instalar cliente MariaDB (compatible con MySQL)
+    "sudo dnf install -y mariadb",
+
+    # Reiniciar Apache para cargar PHP
+    "sudo systemctl restart httpd"
+  ]
+}
 }
 resource "aws_instance" "nombre-resource1" {
   ami                    = var.ami
@@ -50,26 +53,29 @@ resource "aws_instance" "nombre-resource1" {
     type     = "ssh"
     user     = "ec2-user"
     host     = self.public_ip
-    private_key = file("/home/cloud/PracticoIntegrador/llave.pem")
+    private_key = file("/home/cloud/Integrador/llave.pem")
   }
 
   provisioner "remote-exec" {
-    inline = [
-      "sudo yum update -y",
-      "sudo yum install -y httpd",
-      "sudo systemctl enable httpd",
-      "sudo systemctl start httpd",
+  inline = [
+    # Actualizar paquetes
+    "sudo dnf update -y",
 
-      # Activar repositorio PHP 5.6
-      "sudo amazon-linux-extras enable php5.6",
-      "sudo yum clean metadata",
-      "sudo yum install -y php php-mysql",
+    # Instalar Apache (httpd)
+    "sudo dnf install -y httpd",
 
-      # Instalar cliente MySQL
-      "sudo yum install -y mysql",
+    # Habilitar y arrancar Apache
+    "sudo systemctl enable httpd",
+    "sudo systemctl start httpd",
 
-      # Reiniciar Apache para cargar PHP
-      "sudo systemctl restart httpd"
-    ]
-  }
+    # Instalar PHP y extensión para MySQL
+    "sudo dnf install -y php php-mysqlnd",
+
+    # Instalar cliente MariaDB (compatible con MySQL)
+    "sudo dnf install -y mariadb",
+
+    # Reiniciar Apache para cargar PHP
+    "sudo systemctl restart httpd"
+  ]
+}
 }

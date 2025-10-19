@@ -1,10 +1,10 @@
 resource "aws_db_instance" "default" {
   allocated_storage       = 10
   engine                  = "mysql"
-  engine_version          = "5.6"
+  engine_version          = "5.7"
   instance_class          = "db.t3.micro"
   username                = "admin"
-  password                = "luis123"
+  password                = "luis1234"
   db_subnet_group_name    = aws_db_subnet_group.gruposubnet.name
   skip_final_snapshot     = true
 }
